@@ -62,7 +62,14 @@ export default class RomiArmDevice extends CustomDevice {
             return;
         }
         // We get the value in the range 0-255 but the PCA9685
-        // expects pulse width in ticks of 20ms/4096
+        // expects pulse width in ticks of 20ms/4096, also
+        // the romi arm has limited servo movement within the arm
+        // articulation. Below is the mapping which works in our case
+        // but might have to be adapted. This moves this customization
+        // to this web service which is not ideal, but it protects
+        // the servos to move the arm beyond the limits if the main 
+        // robot code has any issue. Also like this, the full servo range
+        // in the robot code maps to the full arm (possible) range.
         if (channel === 0) {
             // gripper range mapping is 0 to 464 (close) and 255 to 96 (open)
             pca9685value = Math.floor(464 - 368/255*value);

@@ -2,6 +2,7 @@ import { NUM_CONFIGURABLE_PINS } from "./romi-robot";
 import jsonfile from "jsonfile";
 import ProgramArguments from "../program-arguments";
 import { Vector3 } from "./devices/core/lsm6/lsm6";
+import RomiArmDevice from "./devices/custom/romi-arm";
 
 export interface CustomDeviceSpec {
     type: string;
@@ -42,7 +43,7 @@ export default class RomiConfiguration {
     private _gyroZeroOffset: Vector3 = { x: 0, y: 0, z: 0};
 
     private _gyroFilterWindowSize: number = 5;
-    private _customDevices: CustomDeviceSpec[] = [];
+    private _customDevices: CustomDeviceSpec[] = [{"type": "romi-arm"}];
 
     constructor(programArgs?: ProgramArguments) {
         // Pre-load the external IO configuration
