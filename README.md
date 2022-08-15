@@ -1,8 +1,12 @@
 # Fork specific information
 Pololu offers an accessory arm kit for their Romi Robot. As it is acknowledged in the description it is for advanced users and there are some HW limitation to make it work nicely. There are 2 main issues:
 * The servos require a dedicated voltage regulator directly connected to the battery compartment. This has been previously described here: https://www.chiefdelphi.com/t/romi-arm/390825.
-* Using the onboard additional PWM channels demonstrates some irritating twitching of the arms which has been widely reported. This is probably due to the auxiliary PWM channels on the Romi board are software based PWMs (unlike the motor servos which are connected to HW PWM ports). On possible solution to this is to add an add on PWM controller (as an additional I2C device which can be directly controller from the Raspberry PI in addition to the romi board and the LSM gyro chip). This fork implementation uses the PCA9685 to add additional HW PWM channels to use to connect the 3 arm servos. There is no more jitter.
-The update to the library consists of a module for initializing and driving the PCA9685 chip at the default address 0x40 on the I2C bus, as well as a custom device (using the existing hooks for this) to create a romi-arm. This devices PWM channels are then exposed as additional servo ids in the romi simulation. For example, if none of the 5 extension onboard channels are configured as PWM, then romi onboard channels 0,1 are the motors, and the romi-arm channels have the ids 2,3,4.
+* Using the onboard additional PWM channels demonstrates some twitching of the servos which has been widely reported. The cause for this is (probably) that the auxiliary PWM channels on the Romi board are software based PWMs (unlike the motor servos which are connected to HW PWM ports) and the pulse width control via the interrupts is not accurate / constant enough. One possible solution to this is to add an add-on HW PWM controller (for example PCA 9685 as an additional I2C device which can be directly controlled from the Raspberry Pi in addition to the romi board and the LSM gyro chip) to connect the 3 arm servos. There is no more jitter/twitching with this solution.
+
+The update to the library consists of a module for initializing and driving the PCA9685 chip at the default address 0x40 on the I2C bus, as well as a custom device (using the existing hooks for this) to create a romi-arm. This device's PWM channels are then exposed as additional servo ids in the romi simulation/robot code. For example, if none of the 5 extension onboard channels are configured as PWM, then romi onboard channels 0,1 are the motors, and the romi-arm channels have the ids 2,3,4.
+
+## Wiring diagram
+![](assets/romiarmelectronics.png)
 
 
 
