@@ -6,7 +6,7 @@ Pololu offers an accessory arm kit for their Romi Robot. As it is acknowledged i
 The update to the library consists of a module for initializing and driving the PCA9685 chip at the default address 0x40 on the I2C bus, as well as a custom device (using the existing hooks for this) to create a romi-arm. This device's PWM channels are then exposed as additional servo ids in the romi simulation/robot code. For example, if none of the 5 extension onboard channels are configured as PWM, then romi onboard channels 0,1 are the motors, and the romi-arm channels have the ids 2,3,4.
 
 ## Wiring diagram
-![](assets/romiarmelectronics.png)
+![](resources/romiarmelectronics.png)
 
 
 
